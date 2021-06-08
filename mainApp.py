@@ -10,8 +10,10 @@ app = Flask(__name__)
 @app.route('/payment' , methods=['POST'])
 def USDriver():
     payment_data = request.get_json()
-    payment_status = ExpoBackOff.paymentGateway()
-    if status == "Success":
+    pprint(payment_data)
+    payment_status = paymentGateway()
+    if payment_status == "Success":
+        print("Payment Completed")
         return "Payment Completed"
     return "Payment Failed"
     

@@ -13,32 +13,27 @@ def callApi(num_retries):
     return response.status_code
 
 def paymentGateway() :
+    MAX_RETRIES=5
+    num_retries = 0
+    while (num_retries <= MAX_RETRIES) :
 
-   MAX_RETRIES=5
-
-   num_retries = 0
-
-   while (num_retries <= MAX_RETRIES) :
-
-    try :
-
-         # actual code goes here
-        print("Calling payment API")
-        status=callApi(num_retries)
-        if status == 200:
-            return "Success"
-        else:
-            return "Failed"
+        try :
+            print("Calling payment API")
+            status=callApi(num_retries)
+            if status == 200:
+                return "Success"
+            else:
+                return "Failed"
         
 
-    except Exception as e :
-        print(e)
-        print("Retrying .....")
-        num_retries = num_retries+1
-        if (num_retries > MAX_RETRIES) :
-            return "Failed"
-        print("Try",num_retries)
-        backoff_before_retry(num_retries)
+        except Exception as e :
+            print(e)
+            print("Retrying .....")
+            num_retries = num_retries+1
+            if (num_retries > MAX_RETRIES) :
+                return "Failed"
+            print("Try",num_retries)
+            backoff_before_retry(num_retries)
 
 def backoff_before_retry(num_retries) :
 	jitter = random.randint(1,999)
